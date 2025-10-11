@@ -24,3 +24,6 @@ vgcore.*
 *.swp
 *.tmp
 
+#vsCode setings
+.vscode
+
