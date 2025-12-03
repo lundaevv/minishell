@@ -6,7 +6,7 @@
 #    By: vlundaev <vlundaev@student.hive.fi>        +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/05/13 03:11:33 by vlundaev          #+#    #+#              #
-#    Updated: 2025/10/09 13:42:49 by vlundaev         ###   ########.fr        #
+#    Updated: 2025/12/03 18:49:45 by vlundaev         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -78,7 +78,6 @@ PRINTF	= 						\
 
 GNL		= 						\
 		get_next_line.c			\
-		get_next_line_utils.c
 
 # Map sources to subdirs
 SRC		=								\

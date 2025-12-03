@@ -6,7 +6,7 @@
 #    By: vlundaev <vlundaev@student.hive.fi>        +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/10/08 11:55:51 by vlundaev          #+#    #+#              #
-#    Updated: 2025/10/10 10:38:49 by vlundaev         ###   ########.fr        #
+#    Updated: 2025/12/03 19:01:26 by vlundaev         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -40,8 +40,13 @@ RL_LIB      = -lreadline
 #RL_LIB    = -L /opt/homebrew/opt/readline/lib -lreadline
 
 # Sources
-SRC			= 		\
-		main.c
+SRC			= 						\
+		main.c						\
+		loop.c						\
+		parsing/lexer.c				\
+		parsing/lexer_utils.c		\
+		parsing/lexer_operator.c	\
+		parsing/lexer_word.c
 
 SRCS		= $(addprefix $(SRC_PATH), $(SRC))
 OBJS		= $(addprefix $(OBJ_PATH), $(SRC:.c=.o))
@@ -78,6 +83,9 @@ relibft:
 # Ensure object dir exists
 $(OBJ_PATH):
 	@mkdir -p $(OBJ_PATH)
+	@mkdir -p $(OBJ_PATH)/parsing
+	@mkdir -p $(OBJ_PATH)/exec
+	@mkdir -p $(OBJ_PATH)/builtins
 
 # Compile objects (both project and libft headers; add RL_INC for completeness)
 $(OBJ_PATH)%.o: $(SRC_PATH)%.c $(HDRS) | $(OBJ_PATH)
