@@ -6,7 +6,7 @@
 /*   By: vlundaev <vlundaev@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/08 11:52:15 by vlundaev          #+#    #+#             */
-/*   Updated: 2025/12/03 18:59:03 by vlundaev         ###   ########.fr       */
+/*   Updated: 2025/12/04 21:17:48 by vlundaev         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@
 typedef struct s_shell
 {
 	int		exit_status;
-	char	**env;
+	char	**env; //t_env *env (instead)
 }	t_shell;
 
 // Token types
@@ -46,6 +46,16 @@ typedef struct s_token
 	struct s_token	*next;
 }	t_token;
 
+// new struct for env
+/*
+typedef struct s_env
+{
+	char			*name
+	char			*value;
+	struct s_env	*next;
+}	t_env;
+*/
+
 // Main minishell loop
 void	shell_loop(t_shell *shell);
 
@@ -62,5 +72,10 @@ int		is_space(char c);
 // Lexer helpers:
 t_token	*lexer_read_operator(const char *line, int *i);
 t_token	*lexer_read_word(const char *line, int *i);
+
+// Expander
+int		expand_tokens(t_token *list, char **envp, int last_status);
+int		expand_tokens(t_token *list, char **envp, int last_status);
+char	*expand_variables_in_value(const char *value, char **envp);
 
 #endif

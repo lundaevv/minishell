@@ -6,7 +6,7 @@
 #    By: vlundaev <vlundaev@student.hive.fi>        +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/10/08 11:55:51 by vlundaev          #+#    #+#              #
-#    Updated: 2025/12/03 19:01:26 by vlundaev         ###   ########.fr        #
+#    Updated: 2025/12/04 15:56:25 by vlundaev         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -46,7 +46,9 @@ SRC			= 						\
 		parsing/lexer.c				\
 		parsing/lexer_utils.c		\
 		parsing/lexer_operator.c	\
-		parsing/lexer_word.c
+		parsing/lexer_word.c		\
+		parsing/expander.c			\
+		parsing/expander_var.c
 
 SRCS		= $(addprefix $(SRC_PATH), $(SRC))
 OBJS		= $(addprefix $(OBJ_PATH), $(SRC:.c=.o))

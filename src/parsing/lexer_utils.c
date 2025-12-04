@@ -6,7 +6,7 @@
 /*   By: vlundaev <vlundaev@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/03 16:56:17 by vlundaev          #+#    #+#             */
-/*   Updated: 2025/12/03 19:08:19 by vlundaev         ###   ########.fr       */
+/*   Updated: 2025/12/04 20:19:39 by vlundaev         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,6 +27,8 @@ t_token	*token_new(char *value, t_token_type type)
 {
 	t_token	*node;
 
+	if (!value)
+		return (NULL);
 	node = (t_token *)malloc(sizeof(t_token));
 	if (!node)
 		return (NULL);
