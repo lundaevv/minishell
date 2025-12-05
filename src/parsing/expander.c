@@ -6,7 +6,7 @@
 /*   By: vlundaev <vlundaev@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/04 14:08:14 by vlundaev          #+#    #+#             */
-/*   Updated: 2025/12/04 21:19:57 by vlundaev         ###   ########.fr       */
+/*   Updated: 2025/12/05 15:56:42 by vlundaev         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -98,7 +98,7 @@ static char	*expand_status_in_value(const char *value, int status)
 	if (count == 0)
 	{
 		free(status_str);
-		return (ft_strdup(value));
+		return (ft_strdup(value)); // protect?
 	}
 	result = replace_status_markers(value, status_str, count);
 	free(status_str);

@@ -6,7 +6,7 @@
 /*   By: vlundaev <vlundaev@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/08 11:44:28 by vlundaev          #+#    #+#             */
-/*   Updated: 2025/12/03 18:57:55 by vlundaev         ###   ########.fr       */
+/*   Updated: 2025/12/05 15:56:40 by vlundaev         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,8 +18,8 @@ int	main(int argc, char **argv, char **envp)
 
 	(void)argc;
 	(void)argv;
-	shell.exit_status = 0;
-	shell.env = envp;
+	shell.exit_status = 0; // hardcoded without the exec as of now
+	shell.env = envp; // should be a copy
 	shell_loop(&shell);
 	return (shell.exit_status);
 }

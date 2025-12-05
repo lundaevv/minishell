@@ -6,7 +6,7 @@
 /*   By: vlundaev <vlundaev@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/08 11:52:15 by vlundaev          #+#    #+#             */
-/*   Updated: 2025/12/04 21:17:48 by vlundaev         ###   ########.fr       */
+/*   Updated: 2025/12/05 15:56:27 by vlundaev         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@
 # include "libft.h"
 # include "ft_printf.h"
 
-// Main shell state
+// Main shell state structure
 // More fields will be added later (env list, tokens, commands, etc.)
 typedef struct s_shell
 {
