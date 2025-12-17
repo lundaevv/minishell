@@ -3,47 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   get_next_line.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vlundaev <vlundaev@student.hive.fi>        +#+  +:+       +#+        */
+/*   By: lundaevv <lundaevv@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/21 15:51:43 by vlundaev          #+#    #+#             */
-/*   Updated: 2025/07/21 18:13:02 by vlundaev         ###   ########.fr       */
+/*   Updated: 2025/12/17 21:58:47 by lundaevv         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "get_next_line.h"
-
-static int	read_buffer(int fd, char *buffer, char **line);
-static char	*extract_line(char *buffer, char *line);
-static void	shift_buffer(char *buffer);
-
-char	*get_next_line(int fd)
-{
-	static char	buffer[BUFFER_SIZE + 1];
-	char		*line;
-
-	if (fd < 0 || BUFFER_SIZE <= 0)
-		return (NULL);
-	line = ft_strdup("");
-	if (!line)
-		return (NULL);
-	while (1)
-	{
-		if (!buffer[0])
-		{
-			if (!read_buffer(fd, buffer, &line))
-				return (line);
-		}
-		line = extract_line(buffer, line);
-		if (!line)
-			return (NULL);
-		if (ft_strchr(buffer, '\n'))
-		{
-			shift_buffer(buffer);
-			return (line);
-		}
-		buffer[0] = '\0';
-	}
-}
+#include "libft.h"
 
 static int	read_buffer(int fd, char *buffer, char **line)
 {
@@ -95,4 +62,33 @@ static void	shift_buffer(char *buffer)
 		i++;
 	}
 	buffer[i] = '\0';
+}
+
+char	*get_next_line(int fd)
+{
+	static char	buffer[BUFFER_SIZE + 1];
+	char		*line;
+
+	if (fd < 0 || BUFFER_SIZE <= 0)
+		return (NULL);
+	line = ft_strdup("");
+	if (!line)
+		return (NULL);
+	while (1)
+	{
+		if (!buffer[0])
+		{
+			if (!read_buffer(fd, buffer, &line))
+				return (line);
+		}
+		line = extract_line(buffer, line);
+		if (!line)
+			return (NULL);
+		if (ft_strchr(buffer, '\n'))
+		{
+			shift_buffer(buffer);
+			return (line);
+		}
+		buffer[0] = '\0';
+	}
 }

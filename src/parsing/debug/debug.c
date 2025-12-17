@@ -3,14 +3,40 @@
 /*                                                        :::      ::::::::   */
 /*   debug.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vlundaev <vlundaev@student.hive.fi>        +#+  +:+       +#+        */
+/*   By: lundaevv <lundaevv@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/11 19:18:50 by vlundaev          #+#    #+#             */
-/*   Updated: 2025/12/11 19:56:56 by vlundaev         ###   ########.fr       */
+/*   Updated: 2025/12/17 18:57:08 by lundaevv         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+
+static const char	*redir_name(t_redir_type t)
+{
+	if (t == REDIR_IN) return ("<");
+	if (t == REDIR_OUT) return (">");
+	if (t == REDIR_APPEND) return (">>");
+	if (t == REDIR_HEREDOC) return ("<<");
+	return ("?");
+}
+
+static void	ms_debug_redirs(t_cmd *cmd)
+{
+	int	i;
+
+	printf("  redir_count = %d\n", cmd->redir_count);
+	if (!cmd->redirs)
+		return ;
+	i = 0;
+	while (i < cmd->redir_count)
+	{
+		printf("  redir[%d]: op=%s target='%s'\n",
+			i, redir_name(cmd->redirs[i].type),
+			cmd->redirs[i].target);
+		i++;
+	}
+}
 
 /*
 ** Debug print of tokens
@@ -35,10 +61,12 @@ void	token_list_print(t_token *list)
 	}
 }
 
-static void	ms_debug_line(char *line)
+static void	ms_debug_line(const char *line)
 {
+	if (!line)
+		return ;
 	ft_putstr_fd("You typed: ", STDOUT_FILENO);
-	ft_putendl_fd(line, STDOUT_FILENO);
+	ft_putendl_fd((char *)line, STDOUT_FILENO);
 }
 
 static void	ms_debug_tokens(t_token *tokens)
@@ -50,6 +78,7 @@ static void	ms_debug_tokens(t_token *tokens)
 
 /*
 ** Print argv for each command in the pipeline (if present).
+** Limit to 50 args to avoid infinite loop if argv is not NULL-terminated.
 */
 static void	ms_debug_pipeline(t_pipeline *p)
 {
@@ -61,16 +90,22 @@ static void	ms_debug_pipeline(t_pipeline *p)
 	j = 0;
 	while (j < p->cmd_count)
 	{
-		ft_printf("CMD[%d] argv:\n", j);
+		printf("CMD[%d] argv:\n", j);
 		if (p->cmds[j].argv)
 		{
 			i = 0;
-			while (p->cmds[j].argv[i])
+			while (p->cmds[j].argv[i] && i < 50)
 			{
-				ft_printf("  argv[%d] = '%s'\n", i, p->cmds[j].argv[i]);
+				printf("  argv[%d] = '%s'\n", i, p->cmds[j].argv[i]);
 				i++;
 			}
+			if (i == 50 && p->cmds[j].argv[i] != NULL)
+				printf("  (stop: argv not NULL-terminated?)\n");
 		}
+
+		printf("CMD[%d] redirs:\n", j);
+		ms_debug_redirs(&p->cmds[j]);
+
 		j++;
 	}
 }
@@ -78,13 +113,17 @@ static void	ms_debug_pipeline(t_pipeline *p)
 /*
 ** Global debug entry point. Call this once per line.
 */
-void	ms_debug_state(t_shell *shell, char *line,
+void	ms_debug_state(t_shell *shell, const char *line,
 			t_token *tokens, t_pipeline *p)
 {
-	(void)shell; // позже можно печатать exit_status, env и т.п.
-	if (!line)
-		return ;
+	(void)shell;
 	ms_debug_line(line);
 	ms_debug_tokens(tokens);
 	ms_debug_pipeline(p);
+}
+
+void	ms_debug_counts(t_token *tokens)
+{
+	printf("DEBUG words_no_redirs=%d\n", count_words_no_redirs(tokens));
+	printf("DEBUG redirs=%d\n", count_redirs_simple(tokens));
 }

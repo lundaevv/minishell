@@ -1,25 +1,30 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_printf.h                                        :+:      :+:    :+:   */
+/*   parser_redir_map.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: lundaevv <lundaevv@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/07/09 15:23:42 by vlundaev          #+#    #+#             */
-/*   Updated: 2025/12/17 22:03:22 by lundaevv         ###   ########.fr       */
+/*   Created: 2025/12/17 18:45:16 by lundaevv          #+#    #+#             */
+/*   Updated: 2025/12/17 18:45:56 by lundaevv         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef FT_PRINTF_H
-# define FT_PRINTF_H
+#include "minishell.h"
 
-# include <stdarg.h>
-
-int	ft_printf(char const *str, ...);
-int	printf_putchar(char ch);
-int	printf_putnbr(long nb);
-int	printf_putnbr_hexa(unsigned long nb, char up);
-int	printf_putptr(void *ptr);
-int	printf_putstr(char *str);
-
-#endif
+int token_to_redir_type(t_token_type t, t_redir_type *out)
+{
+	if (!out)
+		return (1);
+	if (t == TOKEN_REDIR_IN)
+		*out = REDIR_IN;
+	else if (t == TOKEN_REDIR_OUT)
+		*out = REDIR_OUT;
+	else if (t == TOKEN_REDIR_APPEND)
+		*out = REDIR_APPEND;
+	else if (t == TOKEN_HEREDOC)
+		*out = REDIR_HEREDOC;
+	else
+		return (1);
+	return (0);
+}

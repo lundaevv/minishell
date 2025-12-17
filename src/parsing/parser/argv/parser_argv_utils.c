@@ -1,25 +1,32 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_printf.h                                        :+:      :+:    :+:   */
+/*   parser_argv_utils.c                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: lundaevv <lundaevv@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/07/09 15:23:42 by vlundaev          #+#    #+#             */
-/*   Updated: 2025/12/17 22:03:22 by lundaevv         ###   ########.fr       */
+/*   Created: 2025/12/17 18:17:45 by lundaevv          #+#    #+#             */
+/*   Updated: 2025/12/17 18:20:50 by lundaevv         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef FT_PRINTF_H
-# define FT_PRINTF_H
+#include "minishell.h"
 
-# include <stdarg.h>
-
-int	ft_printf(char const *str, ...);
-int	printf_putchar(char ch);
-int	printf_putnbr(long nb);
-int	printf_putnbr_hexa(unsigned long nb, char up);
-int	printf_putptr(void *ptr);
-int	printf_putstr(char *str);
-
-#endif
+/* Skip one redirection token and its WORD target if present. */
+void    skip_redir_pair(t_token **cur)
+{
+	if (!cur || !*cur)
+		return ;
+	*cur = (*cur)->next;
+	if (*cur && (*cur)->type == TOKEN_WORD)
+		*cur = (*cur)->next;
+}
+int free_argv_partial(char **argv, int filled)
+{
+	while (filled > 0)
+	{
+		filled--;
+		free(argv[filled]);
+	}
+	return (1);
+}

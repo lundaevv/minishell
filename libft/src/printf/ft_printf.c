@@ -3,31 +3,31 @@
 /*                                                        :::      ::::::::   */
 /*   ft_printf.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vlundaev <vlundaev@student.hive.fi>        +#+  +:+       +#+        */
+/*   By: lundaevv <lundaevv@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/09 19:08:14 by vlundaev          #+#    #+#             */
-/*   Updated: 2025/07/09 19:26:38 by vlundaev         ###   ########.fr       */
+/*   Updated: 2025/12/17 22:03:34 by lundaevv         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "ft_printf.h"
+#include "libft.h"
 
 static int	ft_conversion(const char type, va_list vargs)
 {
 	if (type == 'c')
-		return (ft_putchar(va_arg(vargs, int)));
+		return (printf_putchar(va_arg(vargs, int)));
 	else if (type == 'u')
-		return (ft_putnbr(va_arg(vargs, unsigned int)));
+		return (printf_putnbr(va_arg(vargs, unsigned int)));
 	else if ((type == 'i') || (type == 'd'))
-		return (ft_putnbr(va_arg(vargs, int)));
+		return (printf_putnbr(va_arg(vargs, int)));
 	else if (type == 's')
-		return (ft_putstr(va_arg(vargs, char *)));
+		return (printf_putstr(va_arg(vargs, char *)));
 	else if ((type == 'x') || (type == 'X'))
-		return (ft_putnbr_hexa(va_arg(vargs, unsigned int), type));
+		return (printf_putnbr_hexa(va_arg(vargs, unsigned int), type));
 	else if (type == 'p')
-		return (ft_putptr(va_arg(vargs, void *)));
+		return (printf_putptr(va_arg(vargs, void *)));
 	else if (type == '%')
-		return (ft_putchar('%'));
+		return (printf_putchar('%'));
 	return (-1);
 }
 

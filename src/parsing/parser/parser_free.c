@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parser_free.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vlundaev <vlundaev@student.hive.fi>        +#+  +:+       +#+        */
+/*   By: lundaevv <lundaevv@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/11 19:15:26 by vlundaev          #+#    #+#             */
-/*   Updated: 2025/12/11 19:57:18 by vlundaev         ###   ########.fr       */
+/*   Updated: 2025/12/17 19:03:56 by lundaevv         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,6 +44,11 @@ void	free_pipeline(t_pipeline *p)
 
 	if (!p)
 		return ;
+	if (!p->cmds)
+	{
+		free(p);
+		return ;
+	}
 	i = 0;
 	while (i < p->cmd_count)
 	{

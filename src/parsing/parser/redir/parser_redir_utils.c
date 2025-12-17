@@ -1,25 +1,21 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_printf.h                                        :+:      :+:    :+:   */
+/*   parser_redir_utils.c                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: lundaevv <lundaevv@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/07/09 15:23:42 by vlundaev          #+#    #+#             */
-/*   Updated: 2025/12/17 22:03:22 by lundaevv         ###   ########.fr       */
+/*   Created: 2025/12/17 17:43:14 by lundaevv          #+#    #+#             */
+/*   Updated: 2025/12/17 18:40:27 by lundaevv         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef FT_PRINTF_H
-# define FT_PRINTF_H
+#include "minishell.h"
 
-# include <stdarg.h>
-
-int	ft_printf(char const *str, ...);
-int	printf_putchar(char ch);
-int	printf_putnbr(long nb);
-int	printf_putnbr_hexa(unsigned long nb, char up);
-int	printf_putptr(void *ptr);
-int	printf_putstr(char *str);
-
-#endif
+int is_redir_token(t_token_type type)
+{
+    return (type == TOKEN_REDIR_IN
+        || type == TOKEN_REDIR_OUT
+        || type == TOKEN_REDIR_APPEND
+        || type == TOKEN_HEREDOC);
+}

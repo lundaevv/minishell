@@ -3,21 +3,21 @@
 /*                                                        :::      ::::::::   */
 /*   ft_printf_utils.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vlundaev <vlundaev@student.hive.fi>        +#+  +:+       +#+        */
+/*   By: lundaevv <lundaevv@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/09 15:34:51 by vlundaev          #+#    #+#             */
-/*   Updated: 2025/07/09 19:46:38 by vlundaev         ###   ########.fr       */
+/*   Updated: 2025/12/17 22:07:45 by lundaevv         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "ft_printf.h"
+#include "libft.h"
 
-int	ft_putchar(char ch)
+int	printf_putchar(char ch)
 {
 	return (write(1, &ch, 1));
 }
 
-int	ft_putstr(char *str)
+int	printf_putstr(char *str)
 {
 	int	len;
 
@@ -38,7 +38,7 @@ int	ft_putstr(char *str)
 	return (len);
 }
 
-int	ft_putnbr(long nb)
+int	printf_putnbr(long nb)
 {
 	long	res;
 	int		len;
@@ -55,7 +55,7 @@ int	ft_putnbr(long nb)
 	res = nb % 10 + '0';
 	if (nb > 9)
 	{
-		count = ft_putnbr(nb / 10);
+		count = printf_putnbr(nb / 10);
 		if (count == -1)
 			return (-1);
 		len += count;
@@ -66,7 +66,7 @@ int	ft_putnbr(long nb)
 	return (len);
 }
 
-int	ft_putnbr_hexa(unsigned long nb, char up)
+int	printf_putnbr_hexa(unsigned long nb, char up)
 {
 	int		len;
 	int		mod;
@@ -80,7 +80,7 @@ int	ft_putnbr_hexa(unsigned long nb, char up)
 		base = "0123456789abcdef";
 	if (nb > 15)
 	{
-		count = ft_putnbr_hexa((nb / 16), up);
+		count = printf_putnbr_hexa((nb / 16), up);
 		if (count == -1)
 			return (-1);
 		len += count;
@@ -92,18 +92,18 @@ int	ft_putnbr_hexa(unsigned long nb, char up)
 	return (len);
 }
 
-int	ft_putptr(void *ptr)
+int	printf_putptr(void *ptr)
 {
 	int	len;
 	int	count;
 
 	len = 0;
 	if (ptr == NULL)
-		return (ft_putstr("(nil)"));
-	if (ft_putstr("0x") == -1)
+		return (printf_putstr("(nil)"));
+	if (printf_putstr("0x") == -1)
 		return (-1);
 	len += 2;
-	count = ft_putnbr_hexa((unsigned long)ptr, 'x');
+	count = printf_putnbr_hexa((unsigned long)ptr, 'x');
 	if (count == -1)
 		return (-1);
 	len += count;

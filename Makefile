@@ -3,101 +3,110 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: vlundaev <vlundaev@student.hive.fi>        +#+  +:+       +#+         #
+#    By: lundaevv <lundaevv@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/10/08 11:55:51 by vlundaev          #+#    #+#              #
-#    Updated: 2025/12/11 19:31:59 by vlundaev         ###   ########.fr        #
+#    Updated: 2025/12/17 21:41:58 by lundaevv         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
-# --------------------------------  MAKEFILE --------------------------------- #
+# -------------------------------- Toolchain --------------------------------- #
 
-# Toolchain
 CC			= cc
 CFLAGS		= -Wall -Wextra -Werror
 
-# Output
+# -------------------------------- Project ----------------------------------- #
+
 NAME		= minishell
 
-# Layout
-SRC_PATH	= src/
-OBJ_PATH	= obj/
-INC_PATH	= includes/
+SRC_PATH	= src
+OBJ_PATH	= obj
+INC_PATH	= includes
 
-# Libft
+# -------------------------------- Libft ------------------------------------- #
+
 LIBFT_DIR	= libft
 LIBFT_A		= $(LIBFT_DIR)/libft.a
 
-# Includes (project + libft)
 INCS		= -I $(INC_PATH) -I $(LIBFT_DIR)/includes
 
-# Readline (Linux default). For macOS, uncomment two lines below.
-RL_INC      =
-RL_LIB      = -lreadline
+# -------------------------------- Readline ---------------------------------- #
 
-# macOS:
-#RL_INC    = -I /opt/homebrew/opt/readline/include
-#RL_LIB    = -L /opt/homebrew/opt/readline/lib -lreadline
+UNAME_S := $(shell uname -s)
 
-# Sources
-SRC			= 						\
-		main.c						\
-		loop.c						\
-		loop_utils.c				\
-		parsing/debug.c				\
-		parsing/lexer.c				\
-		parsing/lexer_utils.c		\
-		parsing/lexer_operator.c	\
-		parsing/lexer_word.c		\
-		parsing/expander.c			\
-		parsing/expander_var.c		\
-		parsing/parser.c			\
-		parsing/parser_utils.c		\
-		parsing/parser_free.c
+ifeq ($(UNAME_S),Darwin)
+	RL_INC = -I /opt/homebrew/opt/readline/include
+	RL_LIB = -L /opt/homebrew/opt/readline/lib -lreadline
+else
+	RL_INC =
+	RL_LIB = -lreadline
+endif
 
-SRCS		= $(addprefix $(SRC_PATH), $(SRC))
-OBJS		= $(addprefix $(OBJ_PATH), $(SRC:.c=.o))
+# -------------------------------- Sources ----------------------------------- #
 
-HDRS		=									\
-		$(INC_PATH)minishell.h					\
-		$(LIBFT_DIR)/includes/libft.h			\
-		$(LIBFT_DIR)/includes/ft_printf.h		\
-		$(LIBFT_DIR)/includes/get_next_line.h	
+SRC = \
+	main.c \
+	loop.c \
+	core/loop_utils.c \
+	core/line_runner.c \
+	core/line_steps.c \
+	parsing/lexer/lexer.c \
+	parsing/lexer/lexer_word.c \
+	parsing/lexer/lexer_operator.c \
+	parsing/lexer/lexer_utils.c \
+	parsing/expander/expander.c \
+	parsing/expander/expander_var.c \
+	parsing/syntax/parser_syntax.c \
+	parsing/parser/parser.c \
+	parsing/parser/parser_utils.c \
+	parsing/parser/parser_build_cmds.c \
+	parsing/parser/parser_free.c \
+	parsing/parser/argv/parser_argv.c \
+	parsing/parser/argv/parser_argv_count.c \
+	parsing/parser/argv/parser_argv_utils.c \
+	parsing/parser/redir/parser_redir_count.c \
+	parsing/parser/redir/parser_redir_utils.c \
+	parsing/parser/redir/parser_redir_map.c \
+	parsing/parser/redir/parser_redir_build.c \
+	parsing/debug/debug.c
 
+SRCS = $(addprefix $(SRC_PATH)/, $(SRC))
+OBJS = $(addprefix $(OBJ_PATH)/, $(SRC:.c=.o))
 
-# ------------------------------ Rules --------------------------------------- #
+HDRS = \
+	$(INC_PATH)/minishell.h \
+	$(LIBFT_DIR)/includes/libft.h \
+	$(LIBFT_DIR)/includes/ft_printf.h \
+	$(LIBFT_DIR)/includes/get_next_line.h
+
+# -------------------------------- Rules ------------------------------------- #
 
 all: $(NAME)
 
-$(NAME): $(OBJ_PATH) $(OBJS) $(LIBFT_A)
+$(NAME): $(OBJS) $(LIBFT_A)
 	@echo "[LD] $(NAME)"
-	@$(CC) $(CFLAGS) $(OBJS) -L $(LIBFT_DIR) -lft \
-		$(RL_LIB) -o $(NAME)
+	@$(CC) $(CFLAGS) $(OBJS) -L $(LIBFT_DIR) -lft $(RL_LIB) -o $(NAME)
 	@echo "[OK] built -> $(NAME)"
 
-# Build libft automatically when the archive is required
+# libft
+
 $(LIBFT_A):
 	@$(MAKE) -C $(LIBFT_DIR)
 
-# Build libft
 libft:
 	@$(MAKE) -C $(LIBFT_DIR)
 
-# Force rebuild of libft if needed
 relibft:
 	@$(MAKE) -C $(LIBFT_DIR) re
 
-# Ensure object dir exists
-$(OBJ_PATH):
-	@mkdir -p $(OBJ_PATH)
-	@mkdir -p $(OBJ_PATH)/parsing
-	@mkdir -p $(OBJ_PATH)/exec
-	@mkdir -p $(OBJ_PATH)/builtins
+# compilation rule (AUTO mkdir)
 
-# Compile objects (both project and libft headers; add RL_INC for completeness)
-$(OBJ_PATH)%.o: $(SRC_PATH)%.c $(HDRS) | $(OBJ_PATH)
+$(OBJ_PATH)/%.o: $(SRC_PATH)/%.c $(HDRS)
+	@mkdir -p $(@D)
 	@echo "[CC] $<"
 	@$(CC) $(CFLAGS) $(INCS) $(RL_INC) -c $< -o $@
+
+# cleaning
 
 clean:
 	@echo "[CLEAN] objects"
@@ -112,7 +121,3 @@ fclean: clean
 re: fclean all
 
 .PHONY: all clean fclean re libft relibft
-
-# .SECONDARY: here acts only as a safety net — just in case some rule chain
-# ever makes an object (or other file) intermediate.
-.SECONDARY:
