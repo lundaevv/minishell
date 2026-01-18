@@ -3,14 +3,30 @@
 /*                                                        :::      ::::::::   */
 /*   loop_utils.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vlundaev <vlundaev@student.hive.fi>        +#+  +:+       +#+        */
+/*   By: lundaevv <lundaevv@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/11 19:31:31 by vlundaev          #+#    #+#             */
-/*   Updated: 2025/12/11 19:55:20 by vlundaev         ###   ########.fr       */
+/*   Updated: 2026/01/04 15:31:20 by lundaevv         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+
+int	is_only_spaces(const char *s)
+{
+	int	i;
+
+	if (!s)
+		return (1);
+	i = 0;
+	while (s[i])
+	{
+		if (s[i] != ' ' && s[i] != '\t')
+			return (0);
+		i++;
+	}
+	return (1);
+}
 
 /*
 * Return 1 if the line should be treated as an "exit" command.
@@ -35,8 +51,9 @@ int	is_exit_command(const char *line)
 */
 int	handle_history_and_exit(t_shell *shell, char *line)
 {
-	if (line[0] != '\0')
-		add_history(line);
+	if (!line || is_only_spaces(line))
+		return (0);
+	add_history(line);
 	if (is_exit_command(line))
 	{
 		free(line);

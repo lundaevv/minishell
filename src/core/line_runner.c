@@ -3,14 +3,25 @@
 /*                                                        :::      ::::::::   */
 /*   line_runner.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vlundaev <vlundaev@student.hive.fi>        +#+  +:+       +#+        */
+/*   By: lundaevv <lundaevv@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/17 21:01:55 by lundaevv          #+#    #+#             */
-/*   Updated: 2025/12/18 14:48:48 by vlundaev         ###   ########.fr       */
+/*   Updated: 2026/01/04 15:32:42 by lundaevv         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+
+static void	cut_first_newline(char *line)
+{
+	char	*nl;
+
+	if (!line)
+		return ;
+	nl = ft_strchr(line, '\n');
+	if (nl)
+		*nl = '\0';
+}
 
 static void	cleanup_line(char *line, t_token **tokens, t_pipeline **p)
 {
@@ -29,6 +40,12 @@ int	run_line(t_shell *shell, char *line)
 
 	tokens = NULL;
 	p = NULL;
+	cut_first_newline(line);
+	if (is_only_spaces(line))
+	{
+		free(line);
+		return (0);
+	}
 	if (handle_history_and_exit(shell, line))
 		return (1);
 	if (handle_unclosed_quotes(shell, line))

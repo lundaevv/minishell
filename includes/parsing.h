@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parsing.h                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vlundaev <vlundaev@student.hive.fi>        +#+  +:+       +#+        */
+/*   By: lundaevv <lundaevv@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/17 21:44:33 by lundaevv          #+#    #+#             */
-/*   Updated: 2025/12/18 17:36:45 by vlundaev         ###   ########.fr       */
+/*   Updated: 2026/01/04 15:41:41 by lundaevv         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,20 +21,33 @@
 ** PARSER -> EXEC CONTRACT
 ** =============================================================================
 **
-** t_cmd:
-** - argv is a NULL-terminated array of strings.
-** - argv may contain empty strings (e.g. "" or '').
-** - If argv != NULL, then argv[argc] == NULL terminator is guaranteed.
+** Ownership / lifetime:
+** - Parser allocates all memory inside t_pipeline/t_cmd (argv strings, redirs 
+**	 targets, arrays). Executor must NOT free individual fields. 
+**   Use free_pipeline() to free everything returned by the parser.
 **
-** - redirs is either:
-**     - NULL when redir_count == 0
-**     - a malloc'ed array of size redir_count when redir_count > 0
+** Segmentation rules:
+** - Each t_cmd is built from tokens up to (but not including) TOKEN_PIPE.
+** - Redirections belong only to the command segment where they appear.
+**
+** t_cmd:
+** - argv is ALWAYS non-NULL on successful parse.
+** - argv is a NULL-terminated array of malloc'ed strings owned by the parser.
+** - Empty strings are valid arguments (e.g. "" or '').
+** - For an empty command (no WORD tokens excluding redirs), argv[0] == NULL.
+**
+** - redirs follows a strict count/pointer contract:
+**     - if redir_count == 0  -> redirs == NULL
+**     - if redir_count  > 0  -> redirs points to a malloc'ed array of size 
+**       redir_count
 ** - Each redirs[i].target is malloc'ed and owned by the parser.
 **
 ** t_pipeline:
-** - cmds is a malloc'ed array of size cmd_count 
-** 				(cmd_count >= 1 when parse succeeds).
-** - All memory returned by parser is freed by free_pipeline().
+** - cmds is a malloc'ed array of size cmd_count, owned by the parser.
+** - On successful parse: cmd_count >= 1 and cmds != NULL.
+**
+** Failure behavior:
+** - On parse failure: parse_pipeline() returns NULL (and must not leak memory).
 */
 
 struct s_shell;
@@ -100,6 +113,7 @@ int			run_line(t_shell *shell, char *line);
 int			line_build_state(t_shell *shell, char *line,
 				t_token **out_tokens, t_pipeline **out_p);
 int			handle_unclosed_quotes(t_shell *shell, char *line);
+int			is_only_spaces(const char *s);
 
 /* =============================== LEXER ==================================== */
 

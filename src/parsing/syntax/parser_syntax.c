@@ -6,7 +6,7 @@
 /*   By: lundaevv <lundaevv@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/17 20:36:12 by lundaevv          #+#    #+#             */
-/*   Updated: 2025/12/17 23:31:52 by lundaevv         ###   ########.fr       */
+/*   Updated: 2026/01/04 14:43:32 by lundaevv         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,6 +58,8 @@ int	validate_syntax(t_token *token)
 	while (token)
 	{
 		if (token->type == TOKEN_PIPE && (!prev || prev->type == TOKEN_PIPE))
+			return (syntax_error(token));
+		if (token->type == TOKEN_PIPE && prev && is_redir_token(prev->type))
 			return (syntax_error(token));
 		if (need_word_after_redir(token))
 			return (syntax_error(token->next));
