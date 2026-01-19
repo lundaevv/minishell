@@ -6,7 +6,7 @@
 /*   By: lundaevv <lundaevv@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/03 16:56:17 by vlundaev          #+#    #+#             */
-/*   Updated: 2026/01/04 15:23:37 by lundaevv         ###   ########.fr       */
+/*   Updated: 2026/01/19 12:06:32 by lundaevv         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,6 +35,7 @@ t_token	*token_new(char *value, t_token_type type)
 		return (NULL);
 	node->value = value;
 	node->type = type;
+	node->has_quotes = false;
 	node->next = NULL;
 	return (node);
 }

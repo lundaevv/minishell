@@ -6,7 +6,7 @@
 /*   By: lundaevv <lundaevv@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/11 19:18:50 by vlundaev          #+#    #+#             */
-/*   Updated: 2025/12/18 00:29:20 by lundaevv         ###   ########.fr       */
+/*   Updated: 2026/01/19 15:30:33 by lundaevv         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,6 +70,10 @@ static void	ms_debug_redirs(const t_cmd *cmd)
 		printf("      target ptr  = %p\n", (void *)cmd->redirs[i].target);
 		printf("      target      = '%s'\n",
 			(cmd->redirs[i].target ? cmd->redirs[i].target : "(null)"));
+		printf("      heredoc_expand = %d\n", cmd->redirs[i].heredoc_expand);
+		if (cmd->redirs[i].type == REDIR_HEREDOC)
+			printf("      expand      = %d\n",
+				(int)cmd->redirs[i].heredoc_expand);
 		i++;
 	}
 }
@@ -84,9 +88,12 @@ void	token_list_print(t_token *list)
 	i = 0;
 	while (list && i < 200)
 	{
-		printf("TOK[%d] node_ptr=%p type=%s(%d) value_ptr=%p value='%s'\n",
+		printf("TOK[%d] node_ptr=%p type=%s(%d) value_ptr=%p",
 			i, (void *)list, tok_name(list->type), list->type,
-			(void *)list->value, (list->value ? list->value : "(null)"));
+			(void *)list->value);
+		if (list->type == TOKEN_WORD)
+			printf(" has_quotes=%d", (int)list->has_quotes);
+		printf(" value='%s'\n", (list->value ? list->value : "(null)"));
 		list = list->next;
 		i++;
 	}

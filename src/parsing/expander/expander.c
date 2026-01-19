@@ -6,7 +6,7 @@
 /*   By: lundaevv <lundaevv@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/04 14:08:14 by vlundaev          #+#    #+#             */
-/*   Updated: 2025/12/17 22:47:00 by lundaevv         ###   ########.fr       */
+/*   Updated: 2026/01/19 15:00:30 by lundaevv         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,11 @@
 /*
 ** Expand all tokens before parsing.
 ** "$?" and VAR in WORD tokens.
+**
+** IMPORTANT:
+** Do NOT expand heredoc limiter:
+**   cat << $EOF
+** limiter must stay literal (bash behavior).
 */
 int	expand_tokens(t_token *list, char **envp, int last_exit_status)
 {
@@ -22,6 +27,13 @@ int	expand_tokens(t_token *list, char **envp, int last_exit_status)
 
 	while (list)
 	{
+		if (list->type == TOKEN_HEREDOC)
+		{
+			if (list->next && list->next->type == TOKEN_WORD)
+				list = list->next;
+			list = list->next;
+			continue ;
+		}
 		if (list->type == TOKEN_WORD)
 		{
 			new_value = ms_expand_unquote(list->value, envp, last_exit_status);

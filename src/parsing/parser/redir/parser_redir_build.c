@@ -6,7 +6,7 @@
 /*   By: lundaevv <lundaevv@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/17 18:46:26 by lundaevv          #+#    #+#             */
-/*   Updated: 2025/12/18 00:33:23 by lundaevv         ###   ########.fr       */
+/*   Updated: 2026/01/19 15:21:30 by lundaevv         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,15 +23,29 @@ static int	free_redirs_partial(t_redir *r, int filled)
 	return (1);
 }
 
+static void	set_heredoc_expand(t_redir *r, int k, t_token *t)
+{
+	r[k].heredoc_expand = true;
+	if (t && t->next && t->next->has_quotes)
+		r[k].heredoc_expand = false;
+}
+
 static int	add_one_redir(t_redir *r, int *k, t_token *t)
 {
 	if (!t || !t->next || t->next->type != TOKEN_WORD)
 		return (1);
 	if (token_to_redir_type(t->type, &r[*k].type) != 0)
 		return (1);
-	r[*k].target = ft_strdup(t->next->value);
+	if (t->type == TOKEN_HEREDOC)
+		r[*k].target = ms_unquote_limiter(t->next->value);
+	else
+		r[*k].target = ft_strdup(t->next->value);
 	if (!r[*k].target)
 		return (1);
+	if (t->type == TOKEN_HEREDOC)
+		set_heredoc_expand(r, *k, t);
+	else
+		r[*k].heredoc_expand = false;
 	(*k)++;
 	return (0);
 }

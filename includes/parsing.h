@@ -6,7 +6,7 @@
 /*   By: lundaevv <lundaevv@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/17 21:44:33 by lundaevv          #+#    #+#             */
-/*   Updated: 2026/01/04 15:41:41 by lundaevv         ###   ########.fr       */
+/*   Updated: 2026/01/19 16:17:28 by lundaevv         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,6 +48,37 @@
 **
 ** Failure behavior:
 ** - On parse failure: parse_pipeline() returns NULL (and must not leak memory).
+**
+** =============================================================================
+** HEREDOC CONTRACT (<< limiter)
+** =============================================================================
+**
+** Parser responsibilities:
+** - For TOKEN_HEREDOC, parser creates a redirection:
+**     redir.type          = REDIR_HEREDOC
+**     redir.target        = limiter string (malloc'ed)
+**     redir.heredoc_expand:
+**         - true  if limiter was NOT quoted
+**         - false if limiter token contained ANY quotes (single or double)
+**
+** - Quotes around the limiter MUST be removed in redir.target.
+**   Examples:
+**     << EOF         -> target="EOF",    heredoc_expand=true
+**     << 'EOF'       -> target="EOF",    heredoc_expand=false
+**     << "$USER"     -> target="$USER",  heredoc_expand=false
+**     << "E'O'F"     -> target="E'O'F",  heredoc_expand=false
+**
+** Executor responsibilities:
+** - Executor must read heredoc input until a line equals redir.target exactly.
+** - If redir.heredoc_expand == true:
+**     expand $VAR and $? inside heredoc body (bash-like)
+** - If redir.heredoc_expand == false:
+**     heredoc body is taken literally (NO expansions).
+**
+** Notes:
+** - Limiter itself is NEVER expanded by the parser.
+** - All memory in redir.target is owned by the parser and freed by
+**		 free_pipeline().
 */
 
 struct s_shell;
@@ -72,6 +103,7 @@ typedef struct s_token
 {
 	char			*value;
 	t_token_type	type;
+	bool			has_quotes;
 	struct s_token	*next;
 }	t_token;
 
@@ -92,6 +124,7 @@ typedef struct s_redir
 {
 	t_redir_type	type;
 	char			*target;
+	bool			heredoc_expand;
 }	t_redir;
 
 typedef struct s_cmd
@@ -134,6 +167,10 @@ int			expand_tokens(t_token *list, char **envp, int last_exit_status);
 char		*ms_expand_unquote(const char *src, char **envp, int last_status);
 int			ms_expand_run(char *dst, const char *src, void **ctx);
 size_t		ms_expanded_len(const char *src, char **envp, int last_status);
+
+char		*ms_unquote_limiter(const char *src);
+int			ms_quote_step_i(const char *s, int *i, char *q);
+int			ms_quote_step_p(const char **p, char *q);
 
 int			ms_is_var_start(char c);
 int			ms_is_var_char(char c);

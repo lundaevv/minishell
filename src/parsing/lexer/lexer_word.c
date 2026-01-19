@@ -3,14 +3,39 @@
 /*                                                        :::      ::::::::   */
 /*   lexer_word.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vlundaev <vlundaev@student.hive.fi>        +#+  +:+       +#+        */
+/*   By: lundaevv <lundaevv@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/03 16:37:24 by vlundaev          #+#    #+#             */
-/*   Updated: 2025/12/03 19:28:43 by vlundaev         ###   ########.fr       */
+/*   Updated: 2026/01/19 12:10:54 by lundaevv         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+
+static int	lex_word_advance(const char *line, int *i, int *has_quotes)
+{
+	int	in_single;
+	int	in_double;
+
+	in_single = 0;
+	in_double = 0;
+	*has_quotes = 0;
+	while (line[*i] != '\0')
+	{
+		if (line[*i] == '\'' && !in_double)
+			in_single = !in_single;
+		else if (line[*i] == '\"' && !in_single)
+			in_double = !in_double;
+		if (line[*i] == '\'' || line[*i] == '\"')
+			*has_quotes = 1;
+		else if (!in_single && !in_double
+			&& (is_space(line[*i]) || line[*i] == '|'
+				|| line[*i] == '<' || line[*i] == '>'))
+			break ;
+		(*i)++;
+	}
+	return (0);
+}
 
 /*
 ** Read a WORD token starting at *i.
@@ -20,24 +45,15 @@
 */
 t_token	*lexer_read_word(const char *line, int *i)
 {
-	int	start;
-	int	in_single;
-	int	in_double;
+	int		start;
+	int		has_quotes;
+	t_token	*tok;
 
 	start = *i;
-	in_single = 0;
-	in_double = 0;
-	while (line[*i] != '\0')
-	{
-		if (line[*i] == '\'' && !in_double)
-			in_single = !in_single;
-		else if (line[*i] == '\"' && !in_single)
-			in_double = !in_double;
-		else if (!in_single && !in_double
-			&& (is_space(line[*i]) || line[*i] == '|'
-				|| line[*i] == '<' || line[*i] == '>'))
-			break ;
-		(*i)++;
-	}
-	return (token_new(ft_substr(line, start, *i - start), TOKEN_WORD));
+	lex_word_advance(line, i, &has_quotes);
+	tok = token_new(ft_substr(line, start, *i - start), TOKEN_WORD);
+	if (!tok)
+		return (NULL);
+	tok->has_quotes = (has_quotes != 0);
+	return (tok);
 }

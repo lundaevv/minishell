@@ -6,7 +6,7 @@
 /*   By: lundaevv <lundaevv@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/17 23:04:57 by lundaevv          #+#    #+#             */
-/*   Updated: 2025/12/17 23:37:56 by lundaevv         ###   ########.fr       */
+/*   Updated: 2026/01/19 15:52:27 by lundaevv         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,10 +57,27 @@ static void	ms_copy_dollar(char *dst, int *j, const char **p, void **ctx)
 	dst[(*j)++] = *(*p)++;
 }
 
-static void	ms_copy_char(char *dst, int *j, char c)
+static int	ms_quote_step(const char **p, char *q)
 {
-	dst[*j] = c;
-	(*j)++;
+	if (*q == 0 && (**p == '\'' || **p == '"'))
+	{
+		*q = **p;
+		(*p)++;
+		return (1);
+	}
+	if (*q == '\'' && **p == '\'')
+	{
+		*q = 0;
+		(*p)++;
+		return (1);
+	}
+	if (*q == '"' && **p == '"')
+	{
+		*q = 0;
+		(*p)++;
+		return (1);
+	}
+	return (0);
 }
 
 int	ms_expand_run(char *dst, const char *src, void **ctx)
@@ -74,17 +91,16 @@ int	ms_expand_run(char *dst, const char *src, void **ctx)
 	q = 0;
 	while (p && *p)
 	{
-		if (!q && (*p == '\'' || *p == '"'))
-			q = *p++;
-		else if (q && *p == q)
-		{
-			q = 0;
-			p++;
-		}
-		else if (*p == '$' && q != '\'')
+		if (ms_quote_step(&p, &q))
+			continue ;
+		if (*p == '$' && q != '\'')
 			ms_copy_dollar(dst, &j, &p, ctx);
 		else
-			ms_copy_char(dst, &j, *p++);
+		{
+			dst[j] = *p;
+			j++;
+			p++;
+		}
 	}
 	return (j);
 }

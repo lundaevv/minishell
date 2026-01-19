@@ -6,7 +6,7 @@
 /*   By: lundaevv <lundaevv@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/17 22:24:37 by lundaevv          #+#    #+#             */
-/*   Updated: 2025/12/17 23:37:27 by lundaevv         ###   ########.fr       */
+/*   Updated: 2026/01/19 15:41:55 by lundaevv         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,6 +52,29 @@ static size_t	ms_dollar_len(const char *src, int *i, char **envp, int st)
 	return (1);
 }
 
+static int	ms_quote_step(const char *src, int *i, char *q)
+{
+	if (*q == 0 && (src[*i] == '\'' || src[*i] == '"'))
+	{
+		*q = src[*i];
+		(*i)++;
+		return (1);
+	}
+	if (*q == '\'' && src[*i] == '\'')
+	{
+		*q = 0;
+		(*i)++;
+		return (1);
+	}
+	if (*q == '"' && src[*i] == '"')
+	{
+		*q = 0;
+		(*i)++;
+		return (1);
+	}
+	return (0);
+}
+
 size_t	ms_expanded_len(const char *src, char **envp, int last_status)
 {
 	size_t	len;
@@ -63,14 +86,9 @@ size_t	ms_expanded_len(const char *src, char **envp, int last_status)
 	q = 0;
 	while (src && src[i])
 	{
-		if (!q && (src[i] == '\'' || src[i] == '"'))
-			q = src[i++];
-		else if (q && src[i] == q)
-		{
-			q = 0;
-			i++;
-		}
-		else if (src[i] == '$' && q != '\'')
+		if (ms_quote_step(src, &i, &q))
+			continue ;
+		if (src[i] == '$' && q != '\'')
 			len += ms_dollar_len(src, &i, envp, last_status);
 		else
 		{

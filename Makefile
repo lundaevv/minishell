@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: vlundaev <vlundaev@student.hive.fi>        +#+  +:+       +#+         #
+#    By: lundaevv <lundaevv@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/10/08 11:55:51 by vlundaev          #+#    #+#              #
-#    Updated: 2025/12/18 14:30:29 by vlundaev         ###   ########.fr        #
+#    Updated: 2026/01/19 15:49:25 by lundaevv         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -56,8 +56,10 @@ SRC = \
 	parsing/lexer/lexer_operator.c \
 	parsing/lexer/lexer_utils.c \
 	parsing/expander/expander.c \
+	parsing/expander/expander_limiter.c \
 	parsing/expander/expander_len.c \
 	parsing/expander/expander_utils.c \
+	parsing/expander/expander_quotes.c \
 	parsing/expander/expander_unquote.c \
 	parsing/expander/expander_unquote_run.c \
 	parsing/syntax/parser_syntax.c \
