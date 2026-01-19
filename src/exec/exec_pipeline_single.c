@@ -13,7 +13,7 @@ static int run_parent_builtin(t_shell *sh, t_cmd *cmd)
 
     if (ms_stdio_save(&in, &out))
         return (sh->exit_status = 1);
-    r = apply_redirections(cmd);
+    r = apply_redirections(sh, cmd);
     if (r == 0)
         r = run_builtin(sh, cmd);
     ms_stdio_restore(in, out);
@@ -26,7 +26,7 @@ static int child_exec(t_shell *sh, t_cmd *cmd)
     int r;
 
     signals_child_exec();
-    r = apply_redirections(cmd);
+    r = apply_redirections(sh, cmd);
     if (r != 0)
         exit(r);
     if (cmd->argv && cmd->argv[0] && is_builtin(cmd->argv[0]))

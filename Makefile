@@ -32,6 +32,11 @@ src/env/env.c \
 src/env/env_utils.c \
 src/exec/exec_heredoc.c \
 src/parser/parse_stub.c \
+src/expander/expander_len.c \
+src/expander/expander_unquote.c \
+src/expander/expander_unquote_run.c \
+src/expander/expander_utils.c \
+
 
 
 OBJS = $(SRCS:.c=.o)

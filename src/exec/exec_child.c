@@ -110,7 +110,7 @@ void child_run_pipeline_cmd(t_shell *sh, t_pipeline *p, int i, int pipes[][2])
     We exit with that status so parent gets correct exit_status.
     */
     {
-        int r = apply_redirections(cmd);
+        int r = apply_redirections(sh, cmd);
         if (r != 0)
             exit(r);
     }

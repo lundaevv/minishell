@@ -6,7 +6,7 @@
 /*   By: gperedny <gperedny@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/29 16:04:51 by gperedny          #+#    #+#             */
-/*   Updated: 2026/01/18 15:52:44 by gperedny         ###   ########.fr       */
+/*   Updated: 2026/01/19 20:18:22 by gperedny         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,6 +24,7 @@
 # include <string.h>
 #include "libft.h"
 #include <fcntl.h>
+#include <limits.h>
 
 /*redirections*/
 typedef enum e_redir_type
@@ -37,7 +38,8 @@ typedef enum e_redir_type
 typedef struct s_redir
 {
 	t_redir_type		type;
-	char				*filename;
+	char				*target;
+	int 				heredoc_expand;
 }				t_redir;
 
 /*command*/
@@ -90,10 +92,20 @@ void free_split(char **arr);
 char **ft_split(char const *s, char c);
 
 /*redirections*/
-int		apply_redirections(t_cmd *cmd);
+int	apply_redirections(t_shell *sh, t_cmd *cmd);
 
 /*heredoc*/
-int 	heredoc_open(const char *limiter);
+int 	heredoc_open(t_shell *sh, const char *limiter, int expander);
+
+/*expander + utils(from parter)*/
+char    *ms_expand_unquote(const char *src, char **envp, int last_status);
+size_t  ms_expanded_len(const char *src, char **envp, int last_status);
+int     ms_expand_run(char *dst, const char *src, void **ctx);
+
+int     ms_is_var_start(char c);
+int     ms_is_var_char(char c);
+int     ms_var_name_len(const char *s);
+char    *ms_get_env_value(const char *name, int len, char **envp);
 
 /*pipes*/
 void child_run_pipeline_cmd(t_shell *sh, t_pipeline *p, int i, int pipes[][2]);
