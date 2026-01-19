@@ -6,6 +6,11 @@ static int run_parent_builtin(t_shell *sh, t_cmd *cmd)
     int out;
     int r;
 
+    /* Bash prints "exit" only when exit is executed in the main shell */
+    if (cmd->argv && cmd->argv[0]
+        && ft_strncmp(cmd->argv[0], "exit", 5) == 0)
+        write(1, "exit\n", 5);
+
     if (ms_stdio_save(&in, &out))
         return (sh->exit_status = 1);
     r = apply_redirections(cmd);
@@ -14,6 +19,7 @@ static int run_parent_builtin(t_shell *sh, t_cmd *cmd)
     ms_stdio_restore(in, out);
     return (sh->exit_status = r);
 }
+
 
 static int child_exec(t_shell *sh, t_cmd *cmd)
 {
