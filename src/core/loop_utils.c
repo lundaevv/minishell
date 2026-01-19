@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   loop_utils.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lundaevv <lundaevv@student.42.fr>          +#+  +:+       +#+        */
+/*   By: vlundaev <vlundaev@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/11 19:31:31 by vlundaev          #+#    #+#             */
-/*   Updated: 2026/01/19 17:28:05 by lundaevv         ###   ########.fr       */
+/*   Updated: 2026/01/19 17:39:47 by vlundaev         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,7 +57,6 @@ int	handle_history_and_exit(t_shell *shell, char *line)
 	add_history(line);
 	if (is_exit_command(line))
 	{
-		free(line);
 		shell->exit_status = 0;
 		clear_history();
 		return (1);
