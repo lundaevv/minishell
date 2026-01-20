@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   loop_utils.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vlundaev <vlundaev@student.hive.fi>        +#+  +:+       +#+        */
+/*   By: lundaevv <lundaevv@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/11 19:31:31 by vlundaev          #+#    #+#             */
-/*   Updated: 2026/01/19 17:39:47 by vlundaev         ###   ########.fr       */
+/*   Updated: 2026/01/20 15:21:14 by lundaevv         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,8 +69,8 @@ int	handle_history_and_exit(t_shell *shell, char *line)
 */
 int	handle_expand_error(t_token **tokens, char *line)
 {
+	(void)line;
 	if (tokens && *tokens)
 		token_list_clear(tokens);
-	free(line);
-	return (0);
+	return (2);
 }

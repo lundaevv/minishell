@@ -6,7 +6,7 @@
 /*   By: lundaevv <lundaevv@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/17 21:06:45 by lundaevv          #+#    #+#             */
-/*   Updated: 2025/12/17 21:11:07 by lundaevv         ###   ########.fr       */
+/*   Updated: 2026/01/20 15:22:20 by lundaevv         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,27 +16,24 @@ static int	step_lex(char *line, t_token **tokens)
 {
 	*tokens = lexer_tokenize(line);
 	if (!*tokens)
-	{
-		free(line);
 		return (2);
-	}
 	return (0);
 }
 
 static int	step_expand(t_shell *shell, char *line, t_token **tokens)
 {
 	if (expand_tokens(*tokens, shell->env, shell->exit_status) != 0)
-		return (handle_expand_error(tokens, line)); /* returns 0 */
+		return (handle_expand_error(tokens, line));
 	return (0);
 }
 
 static int	step_syntax(t_shell *shell, char *line, t_token **tokens)
 {
+	(void)line;
 	if (!validate_syntax(*tokens))
 		return (0);
 	shell->exit_status = 2;
 	token_list_clear(tokens);
-	free(line);
 	return (2);
 }
 

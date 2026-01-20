@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   line_quotes.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vlundaev <vlundaev@student.hive.fi>        +#+  +:+       +#+        */
+/*   By: lundaevv <lundaevv@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/18 14:08:29 by vlundaev          #+#    #+#             */
-/*   Updated: 2025/12/18 17:47:49 by vlundaev         ###   ########.fr       */
+/*   Updated: 2026/01/20 15:16:48 by lundaevv         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,6 +36,5 @@ int	handle_unclosed_quotes(t_shell *shell, char *line)
 		return (0);
 	ft_putendl_fd("minishell: syntax error: unclosed quotes", STDERR_FILENO);
 	shell->exit_status = 2;
-	free (line);
 	return (1);
 }
