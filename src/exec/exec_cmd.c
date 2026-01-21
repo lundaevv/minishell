@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   exec_cmd.c                                         :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: vlundaev <vlundaev@student.hive.fi>        +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2026/01/21 16:07:50 by vlundaev          #+#    #+#             */
+/*   Updated: 2026/01/21 16:07:51 by vlundaev         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "minishell.h"
 
 /*
@@ -6,21 +18,21 @@ This file executes ONE external command (not a builtin).
 
 It is always called from a CHILD process (after fork),
 either:
-    - from exec_pipeline() when p->count == 1
-    - from child_run_pipeline_cmd() when running a pipeline
+	- from exec_pipeline() when p->count == 1
+	- from child_run_pipeline_cmd() when running a pipeline
 
 So this function is allowed to call exit() directly:
 if execve succeeds -> this function never returns
 if execve fails -> we print error and exit with proper code
 
 What parser gives me for each command:
-    cmd->argv = ["ls", "-la", NULL]  (NULL-terminated)
+	cmd->argv = ["ls", "-la", NULL]  (NULL-terminated)
 
 What this function does:
 1) If argv empty -> exit(0)
 2) Resolve the executable path:
-      - if argv[0] contains '/' -> treat as direct path
-      - else search in PATH from envp
+		- if argv[0] contains '/' -> treat as direct path
+		- else search in PATH from envp
 3) If not found -> print "command not found" and exit(127)
 4) If found -> execve(path, argv, envp)
 5) If execve fails -> perror and exit(127)
@@ -60,4 +72,3 @@ void	exec_cmd(t_cmd *cmd, char **envp)
 	free(path);
 	exit(ms_exec_error_code());
 }
-

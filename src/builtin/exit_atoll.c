@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   exit_atoll.c                                       :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: vlundaev <vlundaev@student.hive.fi>        +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2026/01/21 16:05:55 by vlundaev          #+#    #+#             */
+/*   Updated: 2026/01/21 16:06:34 by vlundaev         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "minishell.h"
 
 static int	parse_sign(const char *s, int *i)
@@ -14,8 +26,8 @@ static int	parse_sign(const char *s, int *i)
 	return (sign);
 }
 
-static int	accumulate_digits(const char *s, int *i,
-	unsigned long long *acc, int sign)
+static int	accumulate_digits(const char *s, int *i, unsigned long long *acc,
+		int sign)
 {
 	while (ms_is_digit(s[*i]))
 	{
@@ -28,6 +40,7 @@ static int	accumulate_digits(const char *s, int *i,
 	}
 	return (1);
 }
+
 int	ms_atoll_checked(const char *s, long long *out)
 {
 	int					i;
@@ -49,4 +62,3 @@ int	ms_atoll_checked(const char *s, long long *out)
 		*out = (long long)acc * sign;
 	return (1);
 }
-

@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   builtin_cd.c                                       :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: vlundaev <vlundaev@student.hive.fi>        +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2026/01/21 16:05:34 by vlundaev          #+#    #+#             */
+/*   Updated: 2026/01/21 16:05:35 by vlundaev         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "minishell.h"
 
 static int	cd_get_target(t_shell *sh, t_cmd *cmd, char **out)
@@ -45,4 +57,3 @@ int	bi_cd(t_shell *sh, t_cmd *cmd)
 	cd_update_pwd(sh, oldpwd);
 	return (0);
 }
-

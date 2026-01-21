@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   path_resolve.c                                     :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: vlundaev <vlundaev@student.hive.fi>        +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2026/01/21 16:08:32 by vlundaev          #+#    #+#             */
+/*   Updated: 2026/01/21 16:26:30 by vlundaev         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "minishell.h"
 
 static int	ms_has_slash(const char *s)
@@ -29,6 +41,13 @@ static char	*ms_join_path(const char *dir, const char *cmd)
 	return (res);
 }
 
+static char	*resolve_direct_path(const char *cmd)
+{
+	if (access(cmd, X_OK) == 0)
+		return (ft_strdup(cmd));
+	return (NULL);
+}
+
 char	*resolve_path(const char *cmd, char **envp)
 {
 	char	**paths;
@@ -39,7 +58,7 @@ char	*resolve_path(const char *cmd, char **envp)
 	if (!cmd || !*cmd)
 		return (NULL);
 	if (ms_has_slash(cmd))
-		return ((access(cmd, X_OK) == 0) ? ft_strdup(cmd) : NULL);
+		return (resolve_direct_path(cmd));
 	path_env = get_env_value("PATH", envp);
 	if (!path_env)
 		return (NULL);
@@ -47,7 +66,8 @@ char	*resolve_path(const char *cmd, char **envp)
 	i = 0;
 	while (paths && paths[i])
 	{
-		full = ms_join_path(paths[i++], cmd);
+		full = ms_join_path(paths[i], cmd);
+		i++;
 		if (full && access(full, X_OK) == 0)
 			return (free_split(paths), full);
 		free(full);

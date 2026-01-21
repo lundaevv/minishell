@@ -1,36 +1,39 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   expander_unquote.c                                 :+:      :+:    :+:   */
+/*   exec_heredoc_utils.c                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: vlundaev <vlundaev@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/12/17 22:18:29 by lundaevv          #+#    #+#             */
-/*   Updated: 2026/01/21 16:51:05 by vlundaev         ###   ########.fr       */
+/*   Created: 2026/01/21 16:36:19 by vlundaev          #+#    #+#             */
+/*   Updated: 2026/01/21 16:38:14 by vlundaev         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-static void	ms_set_ctx(void **ctx, char **envp, int *st)
+char	*hd_str_add_char(char *s, char c)
 {
-	ctx[0] = envp;
-	ctx[1] = st;
+	char	*new;
+	size_t	len;
+
+	len = 0;
+	if (s)
+		len = ft_strlen(s);
+	new = malloc(len + 2);
+	if (!new)
+		return (free(s), NULL);
+	if (s)
+		ft_memcpy(new, s, len);
+	new[len] = c;
+	new[len + 1] = '\0';
+	free(s);
+	return (new);
 }
 
-char	*ms_expand_unquote(const char *src, char **envp, int last_status)
+int	hd_write_line(int wfd, char *line)
 {
-	char	*dst;
-	size_t	len;
-	void	*ctx[2];
-	int		j;
-
-	len = ms_expanded_len(src, envp, last_status);
-	dst = (char *)malloc(len + 1);
-	if (!dst)
-		return (NULL);
-	ms_set_ctx(ctx, envp, &last_status);
-	j = ms_expand_run(dst, src, ctx);
-	dst[j] = '\0';
-	return (dst);
+	write(wfd, line, ft_strlen(line));
+	free(line);
+	return (0);
 }

@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   builtin.c                                          :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: vlundaev <vlundaev@student.hive.fi>        +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2026/01/21 16:05:52 by vlundaev          #+#    #+#             */
+/*   Updated: 2026/01/21 16:05:52 by vlundaev         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "minishell.h"
 
 /*
@@ -26,13 +38,9 @@ int	is_builtin(const char *name)
 {
 	if (!name)
 		return (0);
-	return (str_eq(name, "echo")
-		|| str_eq(name, "cd")
-		|| str_eq(name, "pwd")
-		|| str_eq(name, "export")
-		|| str_eq(name, "unset")
-		|| str_eq(name, "env")
-		|| str_eq(name, "exit"));
+	return (str_eq(name, "echo") || str_eq(name, "cd") || str_eq(name, "pwd")
+		|| str_eq(name, "export") || str_eq(name, "unset") || str_eq(name,
+			"env") || str_eq(name, "exit"));
 }
 
 /*
@@ -45,10 +53,8 @@ int	is_parent_builtin(const char *name)
 {
 	if (!name)
 		return (0);
-	return (str_eq(name, "cd")
-		|| str_eq(name, "export")
-		|| str_eq(name, "unset")
-		|| str_eq(name, "exit"));
+	return (str_eq(name, "cd") || str_eq(name, "export") || str_eq(name,
+			"unset") || str_eq(name, "exit"));
 }
 
 /*
@@ -78,5 +84,3 @@ int	run_builtin(t_shell *sh, t_cmd *cmd)
 		return (bi_exit(sh, cmd));
 	return (1);
 }
-
-

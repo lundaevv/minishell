@@ -84,8 +84,10 @@ SRC = \
 	exec/exec_utils.c \
 	exec/exec_signals.c \
 	exec/exec_redirs.c \
+	exec/exec_redirs_apply.c \
 	exec/exec_child.c \
 	exec/exec_heredoc.c \
+	exec/exec_heredoc_utils.c \
 	builtin/builtin.c \
 	builtin/builtin_echo.c \
 	builtin/builtin_cd.c \
@@ -95,7 +97,8 @@ SRC = \
 	builtin/exit_atoll.c \
 	builtin/exit_num_utils.c \
 	env/env.c \
-	env/env_utils.c
+	env/env_utils.c \
+	env/env_append.c \
 
 SRCS = $(addprefix $(SRC_PATH)/, $(SRC))
 OBJS = $(addprefix $(OBJ_PATH)/, $(SRC:.c=.o))

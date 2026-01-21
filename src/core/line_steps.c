@@ -6,7 +6,7 @@
 /*   By: vlundaev <vlundaev@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/17 21:06:45 by lundaevv          #+#    #+#             */
-/*   Updated: 2026/01/21 15:49:54 by vlundaev         ###   ########.fr       */
+/*   Updated: 2026/01/21 15:58:57 by vlundaev         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,7 +43,7 @@ static void	step_parse(t_token *tokens, t_pipeline **p)
 }
 
 int	line_build_state(t_shell *shell, char *line, t_token **out_tokens,
-			t_pipeline **out_p)
+		t_pipeline **out_p)
 {
 	t_token		*tokens;
 	t_pipeline	*p;

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parser_redir_count.c                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lundaevv <lundaevv@student.42.fr>          +#+  +:+       +#+        */
+/*   By: vlundaev <vlundaev@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/17 17:31:17 by lundaevv          #+#    #+#             */
-/*   Updated: 2025/12/17 23:29:06 by lundaevv         ###   ########.fr       */
+/*   Updated: 2026/01/21 16:50:13 by vlundaev         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 

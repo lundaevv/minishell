@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   expander_unquote_run.c                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lundaevv <lundaevv@student.42.fr>          +#+  +:+       +#+        */
+/*   By: vlundaev <vlundaev@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/17 23:04:57 by lundaevv          #+#    #+#             */
-/*   Updated: 2026/01/19 15:52:27 by lundaevv         ###   ########.fr       */
+/*   Updated: 2026/01/21 16:51:08 by vlundaev         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
