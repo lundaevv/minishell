@@ -6,7 +6,7 @@
 /*   By: vlundaev <vlundaev@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/17 22:24:37 by lundaevv          #+#    #+#             */
-/*   Updated: 2026/01/21 16:51:20 by vlundaev         ###   ########.fr       */
+/*   Updated: 2026/01/22 15:08:59 by vlundaev         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,6 +54,12 @@ static size_t	ms_dollar_len(const char *src, int *i, char **envp, int st)
 
 static int	ms_quote_step(const char *src, int *i, char *q)
 {
+	if (*q == 0 && src[*i] == '$' && src[*i + 1] == '"')
+	{
+		*q = '"';
+		(*i) += 2;
+		return (1);
+	}
 	if (*q == 0 && (src[*i] == '\'' || src[*i] == '"'))
 	{
 		*q = src[*i];

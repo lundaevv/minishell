@@ -6,7 +6,7 @@
 /*   By: vlundaev <vlundaev@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/02 17:12:40 by vlundaev          #+#    #+#             */
-/*   Updated: 2026/01/21 15:18:32 by vlundaev         ###   ########.fr       */
+/*   Updated: 2026/01/22 15:14:04 by vlundaev         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,15 +15,25 @@
 static char	*read_line_with_prompt(void)
 {
 	char	*line;
+	char	*clean;
 
-	signals_interactive();
-	line = readline("minishell$ ");
-	if (!line)
+	if (isatty(STDIN_FILENO))
 	{
-		ft_putendl_fd("exit", STDOUT_FILENO);
-		return (NULL);
+		signals_interactive();
+		line = readline("minishell$ ");
+		if (!line)
+		{
+			ft_putendl_fd("exit", STDOUT_FILENO);
+			return (NULL);
+		}
+		return (line);
 	}
-	return (line);
+	line = get_next_line(STDIN_FILENO);
+	if (!line)
+		return (NULL);
+	clean = ft_strtrim(line, "\n");
+	free(line);
+	return (clean);
 }
 
 void	shell_loop(t_shell *shell)

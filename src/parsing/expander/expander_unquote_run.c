@@ -6,7 +6,7 @@
 /*   By: vlundaev <vlundaev@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/17 23:04:57 by lundaevv          #+#    #+#             */
-/*   Updated: 2026/01/21 16:51:08 by vlundaev         ###   ########.fr       */
+/*   Updated: 2026/01/22 14:41:41 by vlundaev         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,29 +57,6 @@ static void	ms_copy_dollar(char *dst, int *j, const char **p, void **ctx)
 	dst[(*j)++] = *(*p)++;
 }
 
-static int	ms_quote_step(const char **p, char *q)
-{
-	if (*q == 0 && (**p == '\'' || **p == '"'))
-	{
-		*q = **p;
-		(*p)++;
-		return (1);
-	}
-	if (*q == '\'' && **p == '\'')
-	{
-		*q = 0;
-		(*p)++;
-		return (1);
-	}
-	if (*q == '"' && **p == '"')
-	{
-		*q = 0;
-		(*p)++;
-		return (1);
-	}
-	return (0);
-}
-
 int	ms_expand_run(char *dst, const char *src, void **ctx)
 {
 	const char	*p;
@@ -91,7 +68,7 @@ int	ms_expand_run(char *dst, const char *src, void **ctx)
 	q = 0;
 	while (p && *p)
 	{
-		if (ms_quote_step(&p, &q))
+		if (ms_quote_step_p(&p, &q))
 			continue ;
 		if (*p == '$' && q != '\'')
 			ms_copy_dollar(dst, &j, &p, ctx);

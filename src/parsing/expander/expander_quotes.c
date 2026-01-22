@@ -6,7 +6,7 @@
 /*   By: vlundaev <vlundaev@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/19 15:48:39 by lundaevv          #+#    #+#             */
-/*   Updated: 2026/01/21 16:51:12 by vlundaev         ###   ########.fr       */
+/*   Updated: 2026/01/22 15:09:12 by vlundaev         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,6 +50,12 @@ int	ms_quote_step_i(const char *s, int *i, char *q)
 
 int	ms_quote_step_p(const char **p, char *q)
 {
+	if (*q == 0 && **p == '$' && (*p)[1] == '"')
+	{
+		*q = '"';
+		(*p) += 2;
+		return (1);
+	}
 	if (*q == 0 && (**p == '\'' || **p == '"'))
 	{
 		*q = **p;
