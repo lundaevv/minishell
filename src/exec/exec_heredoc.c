@@ -6,7 +6,7 @@
 /*   By: gperedny <gperedny@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/21 16:07:04 by vlundaev          #+#    #+#             */
-/*   Updated: 2026/01/22 14:29:55 by gperedny         ###   ########.fr       */
+/*   Updated: 2026/01/22 14:58:15 by gperedny         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,6 @@ static char	*hd_read_line(void)
 	return (line);
 }
 
-
 static int	hd_is_limiter(char *line, const char *limiter)
 {
 	size_t	n;
@@ -70,8 +69,8 @@ static int	hd_fill(int wfd, t_shell *sh, const char *lim, int expand)
 	{
 		if (g_signal == SIGINT)
 			return (130);
-		if(isatty(STDIN_FILENO))
-			write(STDOUT_FILENO, "> ", 2);
+		if (isatty(STDIN_FILENO))
+			write (STDOUT_FILENO, "> ", 2);
 		line = hd_read_line();
 		if (!line)
 		{

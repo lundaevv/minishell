@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec_pipeline_single.c                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vlundaev <vlundaev@student.hive.fi>        +#+  +:+       +#+        */
+/*   By: gperedny <gperedny@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/21 16:08:03 by vlundaev          #+#    #+#             */
-/*   Updated: 2026/01/21 16:26:56 by vlundaev         ###   ########.fr       */
+/*   Updated: 2026/01/22 15:31:24 by gperedny         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,9 @@ static int	child_exec(t_shell *sh, t_cmd *cmd)
 	signals_child_exec();
 	r = apply_redirections(sh, cmd);
 	if (r != 0)
-		exit(r);
+		return (sh->exit_status = r);
+	if (ms_cmd_is_empty(cmd))
+		return (sh->exit_status = 0);
 	if (cmd->argv && cmd->argv[0] && is_builtin(cmd->argv[0]))
 		exit(run_builtin(sh, cmd));
 	exec_cmd(cmd, sh->envp);
@@ -48,6 +50,8 @@ int	exec_pipeline_single(t_shell *sh, t_cmd *cmd)
 	pid_t	pid;
 	int		status;
 
+	if(ms_cmd_is_empty(cmd))
+		return (sh->exit_status = 0);
 	if (cmd->argv && cmd->argv[0] && is_parent_builtin(cmd->argv[0]))
 		return (run_parent_builtin(sh, cmd));
 	signals_parent_exec();

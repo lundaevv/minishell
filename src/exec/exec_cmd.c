@@ -6,7 +6,7 @@
 /*   By: gperedny <gperedny@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/21 16:07:50 by vlundaev          #+#    #+#             */
-/*   Updated: 2026/01/22 14:49:21 by gperedny         ###   ########.fr       */
+/*   Updated: 2026/01/22 15:03:05 by gperedny         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,7 +59,7 @@ static void	exec_with_slash(t_cmd *cmd, char **envp)
 
 void	exec_cmd(t_cmd *cmd, char **envp)
 {
-	if (!cmd || !cmd->argv || !cmd->argv[0])
+	if (!cmd || !cmd->argv || !cmd->argv[0] || cmd->argv[0][0] == '\0')
 		exit(MS_SUCCESS);
 	if (ms_has_slash(cmd->argv[0]))
 		exec_with_slash(cmd, envp);
