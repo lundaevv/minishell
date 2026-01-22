@@ -6,7 +6,7 @@
 /*   By: gperedny <gperedny@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/21 16:08:03 by vlundaev          #+#    #+#             */
-/*   Updated: 2026/01/22 15:51:51 by gperedny         ###   ########.fr       */
+/*   Updated: 2026/01/22 18:40:53 by gperedny         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,21 +29,22 @@ static int	run_parent_builtin(t_shell *sh, t_cmd *cmd)
 	return (sh->exit_status = r);
 }
 
-static int	child_exec(t_shell *sh, t_cmd *cmd)
+static void	child_exec(t_shell *sh, t_cmd *cmd)
 {
 	int	r;
 
 	signals_child_exec();
 	r = apply_redirections(sh, cmd);
 	if (r != 0)
-		return (sh->exit_status = r);
+		exit(r);
 	if (ms_cmd_is_empty(cmd))
-		return (sh->exit_status = 0);
+		exit(0);
 	if (cmd->argv && cmd->argv[0] && is_builtin(cmd->argv[0]))
 		exit(run_builtin(sh, cmd));
 	exec_cmd(cmd, sh->envp);
 	exit(127);
 }
+
 
 int	exec_pipeline_single(t_shell *sh, t_cmd *cmd)
 {

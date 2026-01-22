@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec_redirs_apply.c                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vlundaev <vlundaev@student.hive.fi>        +#+  +:+       +#+        */
+/*   By: gperedny <gperedny@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/21 16:29:55 by vlundaev          #+#    #+#             */
-/*   Updated: 2026/01/21 16:32:55 by vlundaev         ###   ########.fr       */
+/*   Updated: 2026/01/22 19:25:05 by gperedny         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
