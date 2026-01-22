@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec_heredoc.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gperedny <gperedny@student.hive.fi>        +#+  +:+       +#+        */
+/*   By: vlundaev <vlundaev@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/21 16:07:04 by vlundaev          #+#    #+#             */
-/*   Updated: 2026/01/21 22:59:29 by gperedny         ###   ########.fr       */
+/*   Updated: 2026/01/22 11:13:30 by vlundaev         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,6 @@ static char	*hd_read_line(void)
 	}
 	return (line);
 }
-
 
 static int	hd_is_limiter(char *line, const char *limiter)
 {
