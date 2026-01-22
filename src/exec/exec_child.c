@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec_child.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vlundaev <vlundaev@student.hive.fi>        +#+  +:+       +#+        */
+/*   By: gperedny <gperedny@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/21 16:07:47 by vlundaev          #+#    #+#             */
-/*   Updated: 2026/01/21 16:23:14 by vlundaev         ###   ########.fr       */
+/*   Updated: 2026/01/22 15:36:23 by gperedny         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,10 +56,14 @@ void	child_run_pipeline_cmd(t_shell *sh, t_pipeline *p, int i,
 
 	signals_child_exec();
 	cmd = &p->cmds[i];
+	if(ms_cmd_is_empty(cmd))
+		exit(0);
 	connect_pipes(p, i, pipes);
 	close_pipes(p, pipes);
 	r = apply_redirections(sh, cmd);
 	if (r != 0)
 		exit(r);
+	if (ms_cmd_is_empty(cmd))
+		exit(0);
 	run_cmd_in_child(sh, cmd);
 }

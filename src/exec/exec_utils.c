@@ -3,14 +3,23 @@
 /*                                                        :::      ::::::::   */
 /*   exec_utils.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vlundaev <vlundaev@student.hive.fi>        +#+  +:+       +#+        */
+/*   By: gperedny <gperedny@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/21 16:06:53 by vlundaev          #+#    #+#             */
-/*   Updated: 2026/01/21 16:06:54 by vlundaev         ###   ########.fr       */
+/*   Updated: 2026/01/22 14:59:35 by gperedny         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+
+int	ms_cmd_is_empty(t_cmd *cmd)
+{
+	if (!cmd || !cmd->argv || !cmd->argv[0])
+		return (1);
+	if (cmd->argv[0][0] == '\0')
+		return (1);
+	return (0);
+}
 
 char	*get_env_value(char *name, char **envp)
 {

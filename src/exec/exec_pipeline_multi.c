@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec_pipeline_multi.c                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vlundaev <vlundaev@student.hive.fi>        +#+  +:+       +#+        */
+/*   By: gperedny <gperedny@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/21 16:08:00 by vlundaev          #+#    #+#             */
-/*   Updated: 2026/01/21 16:08:00 by vlundaev         ###   ########.fr       */
+/*   Updated: 2026/01/22 15:18:25 by gperedny         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,6 +46,10 @@ int	exec_pipeline_multi(t_shell *sh, t_pipeline *p)
 	pid_t	pids[1024];
 	int		i;
 
+	if (!p || p->cmd_count <= 0)
+		return(sh->exit_status = 0);
+	if (p->cmd_count == 1)
+		return(exec_pipeline_single(sh, &p->cmds[0]));
 	pipe_count = p->cmd_count - 1;
 	if (pipe_count > 1024 || make_pipes(pipes, pipe_count))
 		return (sh->exit_status = 1);

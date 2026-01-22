@@ -6,7 +6,7 @@
 /*   By: gperedny <gperedny@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/21 16:05:34 by vlundaev          #+#    #+#             */
-/*   Updated: 2026/01/21 20:40:49 by gperedny         ###   ########.fr       */
+/*   Updated: 2026/01/22 15:41:53 by gperedny         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,6 +43,11 @@ int	bi_cd(t_shell *sh, t_cmd *cmd)
 	char	*path;
 	char	oldpwd[4096];
 
+	if (cmd && cmd->argv && cmd->argv[1] && cmd->argv[2])
+	{
+		ft_putstr_fd("minishell: cd: too many arguments\n", STDERR_FILENO);
+		return (1);
+	}
 	if (!sh)
 		return (1);
 	if (!getcwd(oldpwd, sizeof(oldpwd)))

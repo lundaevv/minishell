@@ -6,7 +6,7 @@
 /*   By: gperedny <gperedny@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/21 15:18:42 by vlundaev          #+#    #+#             */
-/*   Updated: 2026/01/21 22:52:54 by gperedny         ###   ########.fr       */
+/*   Updated: 2026/01/22 15:00:26 by gperedny         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,7 @@
 # include "parsing.h"
 # include <signal.h>
 # include <sys/types.h>
+# include <sys/stat.h>
 
 typedef struct s_shell			t_shell;
 
@@ -37,7 +38,10 @@ int								ms_status_to_exit(int status);
 int								ms_stdio_save(int *in, int *out);
 void							ms_stdio_restore(int in, int out);
 void							ms_close_all_pipes(int pipes[][2], int n);
+int								ms_cmd_is_empty(t_cmd *cmd);
 void							exec_cmd(t_cmd *cmd, char **envp);
+int								ms_exec_error_code(void);
+void							ms_exec_with_path(t_cmd *cmd, char **envp);
 
 /* path utils */
 char							*resolve_path(const char *cmd, char **envp);
