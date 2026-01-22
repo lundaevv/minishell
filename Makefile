@@ -6,7 +6,7 @@
 #    By: gperedny <gperedny@student.hive.fi>        +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2026/01/21 14:40:59 by lundaevv          #+#    #+#              #
-#    Updated: 2026/01/21 22:53:20 by gperedny         ###   ########.fr        #
+#    Updated: 2026/01/22 14:50:39 by gperedny         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -80,6 +80,7 @@ SRC = \
 	exec/exec_stdio.c \
 	exec/exec_wait.c \
 	exec/exec_cmd.c \
+	exec/exec_cmd_path.c \
 	exec/path_resolve.c \
 	exec/exec_utils.c \
 	exec/exec_signals.c \

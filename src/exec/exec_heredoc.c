@@ -6,7 +6,7 @@
 /*   By: gperedny <gperedny@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/21 16:07:04 by vlundaev          #+#    #+#             */
-/*   Updated: 2026/01/21 22:59:29 by gperedny         ###   ########.fr       */
+/*   Updated: 2026/01/22 14:29:55 by gperedny         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,7 +70,8 @@ static int	hd_fill(int wfd, t_shell *sh, const char *lim, int expand)
 	{
 		if (g_signal == SIGINT)
 			return (130);
-		write(STDOUT_FILENO, "> ", 2);
+		if(isatty(STDIN_FILENO))
+			write(STDOUT_FILENO, "> ", 2);
 		line = hd_read_line();
 		if (!line)
 		{
