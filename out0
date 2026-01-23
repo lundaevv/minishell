@@ -1,0 +1,21 @@
+total 116
+drwxr-xr-x 7 vlundaev 2020  4096 Jan 23 14:13 .
+drwxr-xr-x 4 vlundaev 2020    47 Jan 23 14:03 ..
+-rw-r--r-- 1 vlundaev 2020     0 Jan 23 14:09 echo
+drwxr-xr-x 8 vlundaev 2020  4096 Jan 23 14:05 .git
+-rw-r--r-- 1 vlundaev 2020   273 Jan 23 14:04 .gitignore
+drwxr-xr-x 2 vlundaev 2020    80 Jan 23 14:05 includes
+drwxr-xr-x 5 vlundaev 2020    75 Jan 23 14:07 libft
+-rw-r--r-- 1 vlundaev 2020  4492 Jan 23 14:06 Makefile
+-rwxr-xr-x 1 vlundaev 2020 68920 Jan 23 14:07 minishell
+drwxr-xr-x 7 vlundaev 2020    99 Jan 23 14:07 obj
+-rw-r--r-- 1 vlundaev 2020     0 Jan 23 14:13 out
+-rw-r--r-- 1 vlundaev 2020     0 Jan 23 14:13 out0
+-rw-r--r-- 1 vlundaev 2020  1384 Jan 22 16:00 README.md
+drwxr-xr-x 7 vlundaev 2020    99 Jan 22 20:26 src
+-rw-r--r-- 1 vlundaev 2020     0 Jan 23 14:13 tmp_err_bash
+-rw-r--r-- 1 vlundaev 2020   181 Jan 23 14:13 tmp_err_minishell
+-rw-r--r-- 1 vlundaev 2020     5 Jan 23 14:13 tmp_out_bash
+-rw-r--r-- 1 vlundaev 2020     0 Jan 23 14:13 tmp_out_minishell
+-rw-r--r-- 1 vlundaev 2020  9108 Jan 23 14:13 tmp_valgrind-out.txt
+-rw-r--r-- 1 vlundaev 2020   351 Jan 20 15:00 valgrind_readline.supp
