@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec_utils.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gperedny <gperedny@student.hive.fi>        +#+  +:+       +#+        */
+/*   By: vlundaev <vlundaev@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/21 16:06:53 by vlundaev          #+#    #+#             */
-/*   Updated: 2026/01/22 16:58:46 by gperedny         ###   ########.fr       */
+/*   Updated: 2026/01/23 13:43:39 by vlundaev         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,8 +15,6 @@
 int	ms_cmd_is_empty(t_cmd *cmd)
 {
 	if (!cmd || !cmd->argv || !cmd->argv[0])
-		return (1);
-	if (cmd->argv[0][0] == '\0')
 		return (1);
 	return (0);
 }
