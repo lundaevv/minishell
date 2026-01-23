@@ -6,7 +6,7 @@
 /*   By: gperedny <gperedny@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/21 16:09:02 by vlundaev          #+#    #+#             */
-/*   Updated: 2026/01/23 13:13:29 by gperedny         ###   ########.fr       */
+/*   Updated: 2026/01/23 13:26:40 by gperedny         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,24 +21,6 @@ static int	env_count(char **envp)
 		i++;
 	return (i);
 }
-
-//static int	env_find_index(char **envp, const char *name)
-//{
-//	size_t	n;
-//	int		i;
-
-//	if (!envp || !name)
-//		return (-1);
-//	n = ft_strlen(name);
-//	i = 0;
-//	while (envp[i])
-//	{
-//		if (ft_strncmp(envp[i], name, n) == 0 && envp[i][n] == '=')
-//			return (i);
-//		i++;
-//	}
-//	return (-1);
-//}
 
 static char	*make_kv(const char *name, const char *value)
 {
