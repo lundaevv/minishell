@@ -29,3 +29,6 @@ vgcore.*
 
 # Valgrindp
 *.supp
+
+# Tests
+*.txt

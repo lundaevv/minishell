@@ -6,7 +6,7 @@
 /*   By: vlundaev <vlundaev@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/17 15:57:02 by lundaevv          #+#    #+#             */
-/*   Updated: 2026/01/21 16:50:26 by vlundaev         ###   ########.fr       */
+/*   Updated: 2026/01/23 13:36:36 by vlundaev         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,26 +29,25 @@ static char	**alloc_argv_simple(t_token *tokens, int *count)
 /*
 ** Fills argv with strings
 */
-static int	fill_argv_simple(char **argv, t_token *tokens)
+static int	fill_argv_simple(char **argv, t_token *t)
 {
 	int	i;
 
 	i = 0;
-	while (tokens && tokens->type != TOKEN_PIPE)
+	while (t && t->type != TOKEN_PIPE)
 	{
-		if (is_redir_token(tokens->type))
+		if (is_redir_token(t->type))
+			skip_redir_pair(&t);
+		else if (t->type == TOKEN_WORD && (t->has_quotes || t->value[0]))
 		{
-			skip_redir_pair(&tokens);
-			continue ;
-		}
-		if (tokens->type == TOKEN_WORD)
-		{
-			argv[i] = ft_strdup(tokens->value);
+			argv[i] = ft_strdup(t->value);
 			if (!argv[i])
 				return (free_argv_partial(argv, i));
 			i++;
+			t = t->next;
 		}
-		tokens = tokens->next;
+		else
+			t = t->next;
 	}
 	argv[i] = NULL;
 	return (0);
